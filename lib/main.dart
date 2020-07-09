@@ -19,77 +19,80 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   final _questions = const [
     {
-      'question': 'What\'s your favourite color?',
+      'question': 'Ты сегодня гуляла долго?',
       'answers': [
-        {'text': 'Black', 'score': 5},
-        {'text': 'Blue', 'score': 6},
-        {'text': 'White', 'score': 9},
-        {'text': 'Green', 'score': 10}
+        {'text': 'Да', 'score': 0},
+        {'text': 'Нет', 'score': 5},
       ]
     },
     {
-      'question': 'What\'s your favourite movie?',
+      'question':
+          'Ты сегодня встречалась с кем - то или общалась через голосовой чат?',
       'answers': [
-        {'text': 'Greedy', 'score': 5},
-        {'text': 'The Addams family', 'score': 6},
-        {'text': 'Klaus', 'score': 9},
-        {'text': 'Frozen', 'score': 10}
+        {'text': 'Да', 'score': 0},
+        {'text': 'Нет', 'score': 4},
       ]
     },
     {
-      'question': 'What\'s your favourite person?',
-       'answers': [
-        {'text': 'Max', 'score': 5},
-        {'text': 'Max', 'score': 5},
-        {'text': 'Max', 'score': 5},
-        {'text': 'Max', 'score': 5}
-       ]
+      'question': 'Чем ты занималась сегодня?',
+      'answers': [
+        {'text': 'Смотрела сериалы', 'score': 3},
+        {'text': 'Читала книгу', 'score': 2},
+        {'text': 'Смотрела телевизор', 'score': 3},
+        {'text': 'Гуляла', 'score': 0},
+        {'text': 'Смотрела уроки', 'score': 1}
+      ]
     },
   ];
   int _index = 0;
-  int _totalScore=0;
+  int _totalScore = 0;
 
   void _answer(score) {
-    _totalScore+=score;
+    _totalScore += score;
     setState(() {
       _index += 1;
     });
   }
 
-  String get textResult
-  {
-    if (_totalScore>15)
-      return 'You OK';
-    else if (_totalScore > 20)
-      return 'You good';
-    else if (_totalScore>30)
-      return 'Good boy';
-    return 'You did it';
+  String get textResult {
+    if (_totalScore == 12)
+      return 'Слетишь';
+    else if (_totalScore > 6)
+      return 'Возможно слетишь, осторожнее';
+    else if (_totalScore > 2)
+      return 'Малая вероятность слета, но давай без глупостей';
+    return 'Все прекрасно';
   }
 
-  void start()
-  {
+  void start() {
     setState(() {
-      _totalScore=0;
-      _index=0;
+      _totalScore = 0;
+      _index = 0;
     });
   }
+
   Widget build(BuildContext context) {
     return MaterialApp(
         home: Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.green,
+        centerTitle: true,
         title: Text(
-          'Quiz app',
+          'Анализатор',
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.w300),
           textAlign: TextAlign.center,
         ),
       ),
       body: _index < _questions.length
           ? Quiz(
-              action: _answer ,
+              action: _answer,
               index: _index,
               questions: _questions,
             )
-          : Result(start: start,textResult: textResult,),
+          : Result(
+              start: start,
+              textResult: textResult,
+            ),
     ));
   }
 }
