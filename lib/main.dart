@@ -91,62 +91,55 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
-  final ObstructingPreferredSizeWidget iosAppBar = CupertinoNavigationBar(
-    middle: const Text(
-      'Тест',
-    ),
-  );
-  final appBar = AppBar(
-      backgroundColor: Colors.green,
-      centerTitle: true,
-      title: const Text(
-        'Тест',
-        style: TextStyle(color: Colors.white, fontWeight: FontWeight.w300),
-        textAlign: TextAlign.center,
-      ));
+  final ObstructingPreferredSizeWidget appBar = Platform.isIOS
+      ? CupertinoNavigationBar(
+          middle: const Text(
+            'Тест',
+          ),
+        )
+      : AppBar(
+          backgroundColor: Colors.green,
+          centerTitle: true,
+          title: const Text(
+            'Тест',
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.w300),
+            textAlign: TextAlign.center,
+          ));
+
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: Platform.isIOS? CupertinoThemeData(
-         scaffoldBackgroundColor: CupertinoColors.black,
-      ):
-      ThemeData(
-primaryColor: Colors.green,
-      ),
-        home: Platform.isIOS
-            ? CupertinoPageScaffold(
-                navigationBar: iosAppBar,
-                child: _index < _questions.length
-                    ? Quiz(
-                        action: _answer,
-                        index: _index,
-                        questions: _questions,
-                      )
-                    : Result(
-                        start: start,
-                        textResult: textResult,
-                      ),
-              )
-            : Scaffold(
-                appBar: AppBar(
-                  backgroundColor: Colors.green,
-                  centerTitle: true,
-                  title: const Text(
-                    'Тест',
-                    style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.w300),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-                body: _index < _questions.length
-                    ? Quiz(
-                        action: _answer,
-                        index: _index,
-                        questions: _questions,
-                      )
-                    : Result(
-                        start: start,
-                        textResult: textResult,
-                      ),
-              ));
+    final childForHome = _index < _questions.length
+        ? Quiz(
+            action: _answer,
+            index: _index,
+            questions: _questions,
+          )
+        : Result(
+            start: start,
+            textResult: textResult,
+          );
+    return Platform.isIOS
+        ? CupertinoApp(
+            theme: CupertinoThemeData(
+              primaryColor: CupertinoColors.activeGreen,
+              textTheme: CupertinoTextThemeData(
+                textStyle: TextStyle(fontWeight: FontWeight.w300),
+              ),
+            ),
+            home: CupertinoPageScaffold(
+              navigationBar: appBar,
+              child: childForHome,
+            ),
+          )
+        : MaterialApp(
+            theme: ThemeData(
+              primaryColor: Colors.green,
+              textTheme: TextTheme(
+                body1: TextStyle(fontWeight: FontWeight.w300),
+              ),
+            ),
+            home: Scaffold(
+              appBar: appBar,
+              body: childForHome,
+            ));
   }
 }

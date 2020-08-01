@@ -19,10 +19,10 @@ class Answer extends StatelessWidget {
                       fontWeight: FontWeight.w600, color: Colors.white),
                   textAlign: TextAlign.center),
               onPressed: action,
-              color: CupertinoColors.activeGreen,
+              color: Theme.of(context).primaryColor,
             )
           : RaisedButton(
-              color: Colors.green[400],
+              color: Theme.of(context).primaryColor,
               child: Text(
                 answerText,
                 style:

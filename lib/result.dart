@@ -12,9 +12,9 @@ class Result extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Center(
-          child: Text(
+          child:  Text(
             textResult,
-            style: TextStyle(color: Colors.green[400], fontSize: 25),
+            style: Theme.of(context).textTheme.bodyText1,
             textAlign: TextAlign.center,
           ),
         ),
@@ -22,11 +22,11 @@ class Result extends StatelessWidget {
             ? CupertinoButton(
                 child: const Text('Пройти заново'), onPressed: start)
             : FlatButton(
-                child: Text(
+                child: const Text(
                   'Пройти заново',
                   style: TextStyle(
                       fontSize: 15,
-                      color: Colors.grey[600],
+                      color: Colors.grey,
                       fontWeight: FontWeight.w300),
                   textAlign: TextAlign.center,
                 ),

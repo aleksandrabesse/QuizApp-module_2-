@@ -13,10 +13,7 @@ class Question extends StatelessWidget {
       child: Text(
         questionText,
         textAlign: TextAlign.center,
-        style: TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.w300,
-          ),
+        style: Theme.of(context).textTheme.bodyText1,
       ),
       width: double.infinity,
       margin: EdgeInsets.all(10),
