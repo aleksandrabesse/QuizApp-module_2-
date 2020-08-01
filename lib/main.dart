@@ -92,10 +92,8 @@ class _MyAppState extends State<MyApp> {
   }
 
   final ObstructingPreferredSizeWidget iosAppBar = CupertinoNavigationBar(
-    leading: const Text(
+    middle: const Text(
       'Тест',
-      style: TextStyle(color: Colors.white, fontWeight: FontWeight.w300),
-      textAlign: TextAlign.center,
     ),
   );
   final appBar = AppBar(
@@ -108,6 +106,12 @@ class _MyAppState extends State<MyApp> {
       ));
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: Platform.isIOS? CupertinoThemeData(
+         scaffoldBackgroundColor: CupertinoColors.black,
+      ):
+      ThemeData(
+primaryColor: Colors.green,
+      ),
         home: Platform.isIOS
             ? CupertinoPageScaffold(
                 navigationBar: iosAppBar,
