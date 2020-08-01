@@ -119,11 +119,11 @@ class _MyAppState extends State<MyApp> {
           );
     return Platform.isIOS
         ? CupertinoApp(
+      title: 'Тест',
             theme: CupertinoThemeData(
               primaryColor: CupertinoColors.activeGreen,
-              textTheme: CupertinoTextThemeData(
-                textStyle: TextStyle(fontWeight: FontWeight.w300),
-              ),
+textTheme: CupertinoTextThemeData(  textStyle:TextStyle(fontWeight: FontWeight.w300, decoration: TextDecoration.underline),
+),
             ),
             home: CupertinoPageScaffold(
               navigationBar: appBar,
@@ -131,6 +131,7 @@ class _MyAppState extends State<MyApp> {
             ),
           )
         : MaterialApp(
+        title: 'Тест',
             theme: ThemeData(
               primaryColor: Colors.green,
               textTheme: TextTheme(

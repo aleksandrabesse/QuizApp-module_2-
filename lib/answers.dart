@@ -16,10 +16,10 @@ class Answer extends StatelessWidget {
           ? CupertinoButton(
               child: Text(answerText,
                   style: TextStyle(
-                      fontWeight: FontWeight.w600, color: Colors.white),
+                      fontWeight: FontWeight.w600, color: CupertinoTheme.of(context).primaryColor),
                   textAlign: TextAlign.center),
               onPressed: action,
-              color: Theme.of(context).primaryColor,
+
             )
           : RaisedButton(
               color: Theme.of(context).primaryColor,
