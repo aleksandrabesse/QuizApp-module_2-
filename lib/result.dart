@@ -1,3 +1,5 @@
+import 'dart:io';
+import 'package:flutter/cupertino.dart';
 import "package:flutter/material.dart";
 
 class Result extends StatelessWidget {
@@ -16,14 +18,20 @@ class Result extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
         ),
-        FlatButton(
-          child: Text(
-            'Пройти заново',
-            style: TextStyle(fontSize: 15, color: Colors.grey[600],fontWeight: FontWeight.w300),
-            textAlign: TextAlign.center,
-          ),
-          onPressed: start,
-        )
+        Platform.isIOS
+            ? CupertinoButton(
+                child: const Text('Пройти заново'), onPressed: start)
+            : FlatButton(
+                child: Text(
+                  'Пройти заново',
+                  style: TextStyle(
+                      fontSize: 15,
+                      color: Colors.grey[600],
+                      fontWeight: FontWeight.w300),
+                  textAlign: TextAlign.center,
+                ),
+                onPressed: start,
+              )
       ],
     );
   }

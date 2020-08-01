@@ -1,9 +1,15 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import './quiz.dart';
 import './result.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   runApp(MyApp());
 }
 
@@ -19,30 +25,47 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   final _questions = const [
     {
-      'question': 'Ты сегодня гуляла долго?',
+      'question':
+          'Чтобы алгоритм бинарного поиска работал правильно, нужно, чтобы массив (список) был:',
       'answers': [
-        {'text': 'Да', 'score': 0},
-        {'text': 'Нет', 'score': 5},
+        {'text': 'Отсортированным', 'score': 1},
+        {'text': 'Несортированным', 'score': 0},
+        {'text': 'В куче', 'score': 0},
+        {'text': 'Выходящим из стека', 'score': 0}
       ]
     },
     {
       'question':
-          'Ты сегодня встречалась с кем - то или общалась через голосовой чат?',
+          'Алгоритм обхода графа отличается от алгоритма обхода вершин дерева тем, что…',
       'answers': [
-        {'text': 'Да', 'score': 0},
-        {'text': 'Нет', 'score': 4},
+        {'text': 'Деревья не соединяются', 'score': 0},
+        {'text': 'Графы могут иметь циклы', 'score': 1},
+        {'text': 'У деревьев есть корни', 'score': 0},
+        {
+          'text': 'Все утверждения выше ошибочны: дерево — подмножество графа',
+          'score': 0
+        }
       ]
     },
     {
-      'question': 'Чем ты занималась сегодня?',
+      'question':
+          'Какой алгоритм из нижеперечисленных будет самым производительным, если дан уже отсортированный массив?',
       'answers': [
-        {'text': 'Смотрела сериалы', 'score': 3},
-        {'text': 'Читала книгу', 'score': 2},
-        {'text': 'Смотрела телевизор', 'score': 3},
-        {'text': 'Гуляла', 'score': 0},
-        {'text': 'Смотрела уроки', 'score': 1}
+        {'text': 'Сортировка слиянием', 'score': 0},
+        {'text': 'Сортировка вставками', 'score': 1},
+        {'text': 'Быстрая сортировка', 'score': 0},
+        {'text': 'Пирамидальная сортировка', 'score': 0}
       ]
     },
+    {
+      'question': 'Алгоритм Дейкстры основан на:',
+      'answers': [
+        {'text': 'Парадигме «разделяй и властвуй»', 'score': 0},
+        {'text': 'Динамическом программировании', 'score': 0},
+        {'text': 'Жадном подходе (Greedy Approach)', 'score': 1},
+        {'text': 'Поиске с возвратом', 'score': 0}
+      ]
+    }
   ];
   int _index = 0;
   int _totalScore = 0;
@@ -55,13 +78,10 @@ class _MyAppState extends State<MyApp> {
   }
 
   String get textResult {
-    if (_totalScore == 12)
-      return 'Слетишь';
-    else if (_totalScore > 6)
-      return 'Возможно слетишь, осторожнее';
-    else if (_totalScore > 2)
-      return 'Малая вероятность слета, но давай без глупостей';
-    return 'Все прекрасно';
+    if (_totalScore == 4)
+      return 'Абсолютно верно';
+    else if (_totalScore > 2) return 'Подумай над некоторыми вопросами еще раз';
+    return 'Неверно, посмотри теорию еще раз';
   }
 
   void start() {
@@ -71,28 +91,58 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  final ObstructingPreferredSizeWidget iosAppBar = CupertinoNavigationBar(
+    leading: const Text(
+      'Тест',
+      style: TextStyle(color: Colors.white, fontWeight: FontWeight.w300),
+      textAlign: TextAlign.center,
+    ),
+  );
+  final appBar = AppBar(
+      backgroundColor: Colors.green,
+      centerTitle: true,
+      title: const Text(
+        'Тест',
+        style: TextStyle(color: Colors.white, fontWeight: FontWeight.w300),
+        textAlign: TextAlign.center,
+      ));
   Widget build(BuildContext context) {
     return MaterialApp(
-        home: Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.green,
-        centerTitle: true,
-        title: Text(
-          'Анализатор',
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.w300),
-          textAlign: TextAlign.center,
-        ),
-      ),
-      body: _index < _questions.length
-          ? Quiz(
-              action: _answer,
-              index: _index,
-              questions: _questions,
-            )
-          : Result(
-              start: start,
-              textResult: textResult,
-            ),
-    ));
+        home: Platform.isIOS
+            ? CupertinoPageScaffold(
+                navigationBar: iosAppBar,
+                child: _index < _questions.length
+                    ? Quiz(
+                        action: _answer,
+                        index: _index,
+                        questions: _questions,
+                      )
+                    : Result(
+                        start: start,
+                        textResult: textResult,
+                      ),
+              )
+            : Scaffold(
+                appBar: AppBar(
+                  backgroundColor: Colors.green,
+                  centerTitle: true,
+                  title: const Text(
+                    'Тест',
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.w300),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                body: _index < _questions.length
+                    ? Quiz(
+                        action: _answer,
+                        index: _index,
+                        questions: _questions,
+                      )
+                    : Result(
+                        start: start,
+                        textResult: textResult,
+                      ),
+              ));
   }
 }

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+import 'dart:io';
 
 class Answer extends StatelessWidget {
   final String answerText;
@@ -10,12 +12,25 @@ class Answer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-        child:  RaisedButton(
-          color: Colors.green[400],
-            child: Text(answerText, style: TextStyle(fontWeight: FontWeight.w600, color:Colors.white)),
-            onPressed: action,
-          ),
-   
+      child: Platform.isIOS
+          ? CupertinoButton(
+              child: Text(answerText,
+                  style: TextStyle(
+                      fontWeight: FontWeight.w600, color: Colors.white),
+                  textAlign: TextAlign.center),
+              onPressed: action,
+              color: CupertinoColors.activeGreen,
+            )
+          : RaisedButton(
+              color: Colors.green[400],
+              child: Text(
+                answerText,
+                style:
+                    TextStyle(fontWeight: FontWeight.w600, color: Colors.white),
+                textAlign: TextAlign.center,
+              ),
+              onPressed: action,
+            ),
     );
   }
 }
