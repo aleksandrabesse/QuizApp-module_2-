@@ -91,13 +91,7 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
-  final ObstructingPreferredSizeWidget appBar = Platform.isIOS
-      ? CupertinoNavigationBar(
-          middle: const Text(
-            'Тест',
-          ),
-        )
-      : AppBar(
+  final appBar = AppBar(
           backgroundColor: Colors.green,
           centerTitle: true,
           title: const Text(
@@ -119,19 +113,26 @@ class _MyAppState extends State<MyApp> {
           );
     return Platform.isIOS
         ? CupertinoApp(
-      title: 'Тест',
+            title: 'Тест',
             theme: CupertinoThemeData(
               primaryColor: CupertinoColors.activeGreen,
-textTheme: CupertinoTextThemeData(  textStyle:TextStyle(fontWeight: FontWeight.w300, decoration: TextDecoration.underline),
-),
+              textTheme: CupertinoTextThemeData(
+                textStyle: TextStyle(
+                    fontWeight: FontWeight.w300,
+                    decoration: TextDecoration.underline),
+              ),
             ),
             home: CupertinoPageScaffold(
-              navigationBar: appBar,
+              navigationBar: CupertinoNavigationBar(
+          middle: const Text(
+            'Тест',
+          ),
+        ),
               child: childForHome,
             ),
           )
         : MaterialApp(
-        title: 'Тест',
+            title: 'Тест',
             theme: ThemeData(
               primaryColor: Colors.green,
               textTheme: TextTheme(
